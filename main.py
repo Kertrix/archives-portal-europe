@@ -12,14 +12,17 @@ import csv
 
 
 class ArchiveTree():
-    def __init__(self, *args, **kwargs):
+    def __init__(self, amount, *args, **kwargs):
         self.folders = Queue()
         self.details = []
         self.console = Console()
+        self.amount = amount
 
         directory = requests.get("https://deprecated.archivesportaleurope.net/web/guest/directory?p_p_id=directory_WAR_Portal&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=directoryTree&p_p_cacheability=cacheLevelPage&p_p_col_id=column-1&p_p_col_pos=2&p_p_col_count=3&_=1673100574492")
         countries = directory.json()[0]["children"]
-        for country in countries[:2]:
+        if amount != "":
+            countries = countries[:int(amount)]
+        for country in countries:
             country_code, key = country["countryCode"], country["key"]
             entries = requests.get(f"https://deprecated.archivesportaleurope.net/web/guest/directory?p_p_id=directory_WAR_Portal&p_p_lifecycle=2&p_p_state=normal&p_p_mode=view&p_p_resource_id=directoryTreeAi&nodeId={key}&countryCode={country_code}").json()
             for entry in entries:
@@ -77,8 +80,10 @@ if __name__ == '__main__':
     terminal_menu = TerminalMenu(options, title="What do you want to do?")
     menu_entry_index = terminal_menu.show()
     if options[menu_entry_index] == options[0]:
+        amount = input("How much countries do you want parse? (Leave blank for all): ")
+        print(amount)
         starttime = datetime.now()
-        tree = ArchiveTree()
+        tree = ArchiveTree(amount=amount)
         tree.extract_emails()
         with open("emails.csv", "r") as f:
             amount = sum(1 for line in f)
