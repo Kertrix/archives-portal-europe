@@ -40,7 +40,7 @@ Run these commands to get started.
 
 ## Usage
 
-To use it, simply run the scriptn and enjoy! :)
+To use it, simply run the script and enjoy! :)
 
    ```sh
    python main.py
