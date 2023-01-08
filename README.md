@@ -33,7 +33,11 @@ Run these commands to get started.
    ```sh
    git clone https://github.com/kertrix/archives-portal-europe.git
    ```
-2. Install the dependencies
+2. Cd into it 
+   ```sh
+   cd archives-portal-europe
+   ```
+3. Install the dependencies
    ```sh
    pip install -r requirements.txt
    ```
